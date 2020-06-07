@@ -12,11 +12,6 @@ src/lesson17/homework/asyncFlow.ts
 +1 балл за обработку состояний реквеста в пути и ошибок
 +1 балл за тесты
 +1 балл за разнение по разных файлам и объединение в duck
-
 */
-
-// Action creators
-
-// Thunks
 
 // Reducer
