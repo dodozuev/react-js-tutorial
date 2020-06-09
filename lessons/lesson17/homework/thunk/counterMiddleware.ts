@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
-import { AnyAction, Middleware } from "redux";
-
+import { AnyAction } from "redux";
 import { Dispatch } from "react";
 import { FetchAction } from "../asyncFlow/actions";
 
@@ -21,9 +20,9 @@ src/lesson17/homework/thunk.ts
 
 // For demonstration purpose only
 let __dispatchCounter = 0;
-export const counterMiddleware = ({ getState }) => (
-  next: Dispatch<AnyAction>
-) => async (action: FetchAction) => {
+export const counterMiddleware = ({}) => (next: Dispatch<AnyAction>) => async (
+  action: FetchAction
+) => {
   const resultAction = next(action);
   console.log(`Dispatched ${++__dispatchCounter} times`);
 

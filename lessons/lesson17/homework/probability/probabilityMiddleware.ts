@@ -1,4 +1,3 @@
-import { AnyAction } from "redux";
 import { Dispatch } from "react";
 import { ProbableAction } from "./probableAction";
 
