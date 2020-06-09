@@ -1,3 +1,5 @@
+import { FetchAction, FetchState } from "./actions";
+
 export function workWithFetch(
   state: FetchState = {},
   action: FetchAction

@@ -2,7 +2,6 @@
 
 import "whatwg-fetch";
 
-import { Action, Store, applyMiddleware, createStore } from "redux";
 import {
   FetchAction,
   FetchState,
@@ -10,6 +9,7 @@ import {
   PutErrorToState,
   SetLoading,
 } from "./actions";
+import { Store, applyMiddleware, createStore } from "redux";
 
 import { fetchPeople } from "./thunk";
 import thunkMiddleware from "redux-thunk";
