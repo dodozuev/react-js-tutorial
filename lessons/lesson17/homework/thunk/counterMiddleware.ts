@@ -23,8 +23,6 @@ let __dispatchCounter = 0;
 export const counterMiddleware = ({}) => (next: Dispatch<AnyAction>) => async (
   action: FetchAction
 ) => {
-  const resultAction = next(action);
   console.log(`Dispatched ${++__dispatchCounter} times`);
-
-  return resultAction;
+  return next(action);
 };

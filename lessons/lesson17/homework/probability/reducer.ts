@@ -7,7 +7,7 @@ import {
 export function probableReducer(
   state: ProbableState = {},
   action: ProbableAction
-): any {
+): ProbableState {
   switch (action.type) {
     case PROBABLE_ACTION:
       return { message: "action fired!", status: action.type };

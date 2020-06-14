@@ -21,16 +21,12 @@ probablity это число от 0 до 1
 */
 
 // TODO: спросить, как правильно написать здесь store по ts
-export const probabilityMiddleware = ({ getState }) => (
+export const probabilityMiddleware = () => (
   next: Dispatch<ProbableAction>
 ) => async (action: ProbableAction) => {
-  if (action?.meta?.probability !== undefined) {
-    const randomNumber = Math.random();
-    if (action.meta.probability > randomNumber) {
-      return next(action);
-    } else {
-      return void 0;
-    }
+  if (typeof action?.meta?.probability !== "number") {
+    return next(action);
   }
-  return next(action);
+  const randomNumber = Math.random();
+  return action.meta.probability > randomNumber ? next(action) : void 0;
 };

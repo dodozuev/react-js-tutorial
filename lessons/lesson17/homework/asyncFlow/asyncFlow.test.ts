@@ -20,7 +20,7 @@ describe("Redux async flow", () => {
 
   beforeEach(() => {
     const a: FetchState = {};
-    // TODO: find out how to create typed store correctly
+
     store = createStore(workWithFetch, a, applyMiddleware(thunkMiddleware));
     jest.spyOn(store, "dispatch");
   });
