@@ -1,4 +1,12 @@
-import { FetchAction, FetchState } from "./actions";
+import {
+  FetchAction,
+  FetchState,
+  fetchPeopleError,
+  fetchPeopleLoading,
+  fetchPeopleSuccess,
+} from "./actions";
+
+import { createReducer } from "@reduxjs/toolkit";
 
 export function workWithFetch(
   state: FetchState = {},
@@ -15,3 +23,20 @@ export function workWithFetch(
       return state;
   }
 }
+
+export const toolkitReducer = createReducer<FetchState>(
+  {},
+  {
+    [fetchPeopleLoading.type]: (state, action) => ({
+      ...state,
+      status: action.type,
+    }),
+    [fetchPeopleSuccess.type]: (state, action) => {
+      const response = JSON.parse(action.payload) as PeopleResponse;
+      return { ...state, data: response.results, status: action.type };
+    },
+    [fetchPeopleError.type]: (state, action) => {
+      return { ...state, status: action.type };
+    },
+  }
+);
