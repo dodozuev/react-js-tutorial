@@ -1,5 +1,3 @@
-import "whatwg-fetch";
-
 import {
   FetchAction,
   FetchState,
@@ -9,9 +7,12 @@ import {
 } from "./actions";
 import { Store, applyMiddleware, createStore } from "redux";
 
+import fetch from "node-fetch";
 import { fetchPeople } from "./thunk";
 import thunkMiddleware from "redux-thunk";
 import { workWithFetch } from "./reducer";
+
+jest.mock("node-fetch");
 
 describe("Redux async flow", () => {
   let store: Store<FetchState, FetchAction> & {
@@ -20,7 +21,6 @@ describe("Redux async flow", () => {
 
   beforeEach(() => {
     const a: FetchState = {};
-
     store = createStore(workWithFetch, a, applyMiddleware(thunkMiddleware));
     jest.spyOn(store, "dispatch");
   });
@@ -48,12 +48,9 @@ describe("Redux async flow", () => {
   });
 
   it("should set status to failed and set error when SetLoading", async () => {
-    const mockFetchPromise = Promise.resolve({
-      text: () => "TADA!",
-    });
-    jest.spyOn(global, "fetch").mockImplementation(() => {
-      return mockFetchPromise;
-    });
+    (fetch as jest.Mocked<typeof fetch>).mockReturnValue(
+      Promise.resolve({ text: () => Promise.resolve("TADA!") })
+    );
 
     await store.dispatch(fetchPeople());
 

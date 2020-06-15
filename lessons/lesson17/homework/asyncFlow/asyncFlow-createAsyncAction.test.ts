@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
+
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { configureStore, createSlice } from "@reduxjs/toolkit";
-import fetch, { Response } from "node-fetch";
 
 import { FetchState } from "./actions";
+import fetch from "node-fetch";
 import { fetchPeopleFromReduxToolkit } from "./thunk";
 
 jest.mock("node-fetch");
