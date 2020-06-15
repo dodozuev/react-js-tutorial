@@ -2,17 +2,20 @@
 
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { FetchAction, FetchState } from "./actions";
+import { Store, configureStore, createSlice } from "@reduxjs/toolkit";
 
-import { FetchState } from "./actions";
 import fetch from "node-fetch";
 import { fetchPeopleFromReduxToolkit } from "./thunk";
+import { store } from "@/rdx/store";
 
 jest.mock("node-fetch");
 
 describe("Redux async flow", () => {
   let slice: any;
-  let store: any;
+  let store: Store<FetchState, FetchAction> & {
+    dispatch: unknown | any;
+  };
 
   beforeEach(() => {
     slice = createSlice({
@@ -25,18 +28,26 @@ describe("Redux async flow", () => {
             fetchPeopleFromReduxToolkit.fulfilled,
             (state: FetchState, action) => {
               state.data = action.payload.results;
+              state.status = "SUCCESS";
+              return state;
             }
           )
           .addCase(fetchPeopleFromReduxToolkit.pending, (state: FetchState) => {
             state.status = "LOADING";
-          });
+          })
+          .addCase(
+            fetchPeopleFromReduxToolkit.rejected,
+            (state: FetchState) => {
+              state.status = "FAILED";
+            }
+          );
       },
     });
 
     store = configureStore({ reducer: slice.reducer });
   });
 
-  it("should set status to failed and set error when SetLoading", async () => {
+  it("should set status to 'SUCCESS' and set data to returned from fetch", async () => {
     const response = {
       results: [
         {
@@ -55,9 +66,11 @@ describe("Redux async flow", () => {
       Promise.resolve({ json: () => Promise.resolve(response) })
     );
 
-    store.dispatch(fetchPeopleFromReduxToolkit());
+    await store.dispatch(fetchPeopleFromReduxToolkit());
 
     const currentState = store.getState();
+    expect(currentState.status).toBe("SUCCESS");
+    expect(currentState.data).toMatchObject(response.results);
     console.log(currentState);
   });
 });
