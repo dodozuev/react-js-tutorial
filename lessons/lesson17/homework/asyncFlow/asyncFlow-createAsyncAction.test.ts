@@ -71,6 +71,5 @@ describe("Redux async flow", () => {
     const currentState = store.getState();
     expect(currentState.status).toBe("SUCCESS");
     expect(currentState.data).toMatchObject(response.results);
-    console.log(currentState);
   });
 });
