@@ -1,3 +1,6 @@
+import { Dispatch } from "react";
+import { ProbableAction } from "./probableAction";
+
 /*
 
 Курс React, урок 17: Middlewares
@@ -16,3 +19,14 @@ probablity это число от 0 до 1
 +1 балл за тесты
 
 */
+
+// TODO: спросить, как правильно написать здесь store по ts
+export const probabilityMiddleware = () => (
+  next: Dispatch<ProbableAction>
+) => async (action: ProbableAction) => {
+  if (typeof action?.meta?.probability !== "number") {
+    return next(action);
+  }
+  const randomNumber = Math.random();
+  return action.meta.probability > randomNumber ? next(action) : void 0;
+};

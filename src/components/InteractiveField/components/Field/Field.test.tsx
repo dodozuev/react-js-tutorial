@@ -1,8 +1,7 @@
+import { Field } from "./Field";
 import React from "react";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-
-import { Field } from "./Field";
 
 describe("Field", () => {
   it("renders cells for passed empty field", () => {
